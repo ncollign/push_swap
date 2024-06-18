@@ -1,6 +1,9 @@
 #include "push_swap.h"
 
 t_stack	*last_element(t_stack *stack)
+/*
+	This function returns the last element of a stack
+*/
 {
 	if (stack == NULL)
 		return NULL;
@@ -9,10 +12,30 @@ t_stack	*last_element(t_stack *stack)
 	{
 		stack = stack->next;
 	}
-	return stack;
+	return (stack);
+}
+
+int	get_min(t_stack *stack)
+/*
+	This function returns the minimum value of a stack
+*/
+{
+	int	min;
+
+	min = stack->value;
+	while (stack != NULL && stack->next != NULL)
+	{
+        if (stack->value < min)
+			min = stack->value;
+        stack = stack->next;
+    }
+    return (min);
 }
 
 void update_indices(t_stack *stack)
+/*
+	This function updates all the indices of a stack
+*/
 {
     int index = 0;
     while (stack)
@@ -23,7 +46,24 @@ void update_indices(t_stack *stack)
     }
 }
 
+int get_stack_size(t_stack *stack)
+/*
+	This function returns the size of the stack
+*/
+{
+    int size = 0;
+    while (stack)
+    {
+        size++;
+        stack = stack->next;
+    }
+    return (size);
+}
+
 int ft_strisnumber(const char *str)
+/*
+	This function checks if a string is only composed by digits
+*/
 {
 	if (!str || *str == '\0')
 		return 0;
@@ -41,6 +81,9 @@ int ft_strisnumber(const char *str)
 }
 
 void print_stack(t_stack *stack)
+/*
+	This function prints a stack
+*/
 {
 	while (stack)
 	{
