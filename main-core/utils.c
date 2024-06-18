@@ -1,4 +1,4 @@
-#include "main-core/push_swap.h"
+#include "push_swap.h"
 
 t_stack	*last_element(t_stack *stack)
 {

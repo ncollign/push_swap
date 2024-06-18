@@ -106,8 +106,9 @@ int	main(int argc, char **argv)
 	init_args(args, &stack_a);
 	print_stack(stack_a);
 	//sort(&stack_a, &stack_b);
-	ss(&stack_a, &stack_b);
+	rra(&stack_a);
 	print_stack(stack_a);
+	//print_stack(stack_b);
 
 	// Libération de la mémoire utilisée par les piles
 	t_stack *tmp;

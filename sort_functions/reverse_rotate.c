@@ -1,6 +1,6 @@
 #include "../main-core/push_swap.h"
 
-static void	rotate(t_stack **stack)
+static void	reverse_rotate(t_stack **stack)
 /*
 	This function put the first element of a stack and put it at the end of the stack
 */
@@ -11,11 +11,26 @@ static void	rotate(t_stack **stack)
 
 	if (!*stack)
 		return ;
+	last = last_element(*stack);
 	tmp = *stack;
+	*stack = last;
+	(*stack)->next = tmp;
+
+	last = last_element(*stack);
+	last->next = NULL;
+
+
+
+
+
+	
+	/*tmp = *stack;
 	*stack = (*stack)->next;
 	last = last_element(*stack);
 	last->next = tmp;
-	tmp->next = NULL;
+	tmp->next = NULL;*/
+	
+	/*
 	index = 0;
 	tmp = *stack;
 	while (tmp->next != NULL)
@@ -25,32 +40,33 @@ static void	rotate(t_stack **stack)
 		tmp = tmp->next;
 	}
 	last->next->index = index;
+	*/
 }
 
-void	ra(t_stack **stack_a)
+void	rra(t_stack **stack_a)
 /*
 	This function put the first element of stack A and put it at the end of the stack
 */
 {
-	rotate(stack_a);
-	ft_printf("ra\n");
+	reverse_rotate(stack_a);
+	ft_printf("rra\n");
 }
 
-void	rb(t_stack **stack_b)
+void	rrb(t_stack **stack_b)
 /*
 	This function put the first element of stack B and put it at the end of the stack
 */
 {
-	rotate(stack_b);
-	ft_printf("rb\n");
+	reverse_rotate(stack_b);
+	ft_printf("rrb\n");
 }
 
-void	rr(t_stack **stack_a, t_stack **stack_b)
+void	rrr(t_stack **stack_a, t_stack **stack_b)
 /*
 	This function put the first elements of stack A and B and put it at the end of each stack
 */
 {
-	rotate(stack_a);
-	rotate(stack_b);
-	ft_printf("rr\n");
+	reverse_rotate(stack_a);
+	reverse_rotate(stack_b);
+	ft_printf("rrr\n");
 }
