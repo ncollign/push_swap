@@ -66,8 +66,6 @@ int	simple_sort(t_stack **stack_a, t_stack **stack_b)
 
 }
 
-int	
-
 void	sort(t_stack **stack_a, t_stack **stack_b)
 /*
 	This function sorts stacks
