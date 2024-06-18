@@ -1,22 +1,22 @@
 #include "push_swap.h"
 
-void	divide_stack(t_stack **stack_a, t_stack **stack_b)
+int	divide_stack(t_stack **stack_a, t_stack **stack_b)
 {
 	int		index_mid;
-	int		count;
+	int		index;
 	t_stack	*last;
 
 	last = last_element(*stack_a);
 	index_mid = last->index / 2;
-	count = 0;
-	while (count <= index_mid)
+	index = 0;
+	while (index <= index_mid)
 	{
 		pb(stack_a, stack_b);
-		count++;
+		index++;
 	}
-
 	print_stack(*stack_a);
 	print_stack(*stack_b);
+	return (index);
 }
 
 int	is_sort(t_stack *stack)
@@ -38,15 +38,27 @@ int	is_sort(t_stack *stack)
 void	sort(t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*tmp;
+	int		op_count;
 
-	divide_stack(stack_a, stack_b);
+	op_count = 0;
+	op_count += divide_stack(stack_a, stack_b);
 	if ((*stack_a)->value > (*stack_a)->next->value)
+	{
 		sa(stack_a);
+		op_count++;
+	}
 	else if ((*stack_b)->value > (*stack_b)->next->value)
+	{
 		sb(stack_b);
+		op_count++;
+	}
+
+
+
 	if (is_sort(*stack_a) == 1)
 	{
 		print_stack(*stack_a);
+		ft_printf("NB_op : %d\n", op_count);
 	}
 	else
 		ft_printf("Pas trié\n");
