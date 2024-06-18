@@ -1,0 +1,17 @@
+{
+	"files.associations": {
+		"array": "c",
+		"*.tcc": "c",
+		"string": "c",
+		"unordered_map": "c",
+		"memory": "c",
+		"string_view": "c",
+		"ostream": "c",
+		"streambuf": "c",
+		"functional": "c",
+		"tuple": "c",
+		"push_swap.h": "c",
+		"rotate.C": "cpp",
+		"utils": "c"
+	}
+}
