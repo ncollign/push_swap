@@ -7,24 +7,15 @@ static void	rotate(t_stack **stack)
 {
 	t_stack	*tmp;
 	t_stack *last;
-	int		index;
 
-	if (!*stack)
+	if (!*stack || !(*stack)->next)
 		return ;
 	tmp = *stack;
 	*stack = (*stack)->next;
 	last = last_element(*stack);
 	last->next = tmp;
 	tmp->next = NULL;
-	index = 0;
-	tmp = *stack;
-	while (tmp->next != NULL)
-	{
-		tmp->index = index;
-		index++;
-		tmp = tmp->next;
-	}
-	last->next->index = index;
+	update_indices(*stack);
 }
 
 void	ra(t_stack **stack_a)

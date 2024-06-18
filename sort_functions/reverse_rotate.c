@@ -2,45 +2,22 @@
 
 static void	reverse_rotate(t_stack **stack)
 /*
-	This function put the first element of a stack and put it at the end of the stack
+	This function put the last element of a stack and put it at the beginning of the stack
 */
 {
 	t_stack	*tmp;
-	t_stack *last;
-	int		index;
+	t_stack *second_last;
 
-	if (!*stack)
+	if (!*stack || !(*stack)->next)
 		return ;
-	last = last_element(*stack);
 	tmp = *stack;
-	*stack = last;
+	second_last = *stack;
+	*stack = last_element(*stack);
+	while (second_last->next->next != NULL)
+        second_last = second_last->next;
+	second_last->next = NULL;
 	(*stack)->next = tmp;
-
-	last = last_element(*stack);
-	last->next = NULL;
-
-
-
-
-
-	
-	/*tmp = *stack;
-	*stack = (*stack)->next;
-	last = last_element(*stack);
-	last->next = tmp;
-	tmp->next = NULL;*/
-	
-	/*
-	index = 0;
-	tmp = *stack;
-	while (tmp->next != NULL)
-	{
-		tmp->index = index;
-		index++;
-		tmp = tmp->next;
-	}
-	last->next->index = index;
-	*/
+	update_indices(*stack);
 }
 
 void	rra(t_stack **stack_a)
