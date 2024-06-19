@@ -10,15 +10,13 @@ int	divide_stack(t_stack **stack_a, t_stack **stack_b)
 	int		index;
 	t_stack	*last;
 
-	index_mid = get_stack_size(stack_a) / 2;
+	index_mid = get_stack_size(*stack_a) / 2;
 	index = 0;
 	while (index <= index_mid)
 	{
 		pb(stack_a, stack_b);
 		index++;
 	}
-	print_stack(*stack_a);
-	print_stack(*stack_b);
 	return (index);
 }
 
@@ -74,9 +72,10 @@ void	sort(t_stack **stack_a, t_stack **stack_b)
 	int		op_count;
 	int		min;
 
-	min = get_min(stack_a);
+	min = get_min(*stack_a);
 	op_count = 0;
 	op_count += divide_stack(stack_a, stack_b);
+	
 	// Trier la pile A et B en même temps
 	while (!(is_sort(*stack_a) && is_sort(*stack_b)))
 	{
@@ -98,15 +97,17 @@ void	sort(t_stack **stack_a, t_stack **stack_b)
 		rrr(stack_a, stack_b);
 		op_count++;
 	}
+
+
 	// Envoyer dans la pile A dans le bon ordre
-	op_count += merge_stacks(stack_a, stack_b);
+	//op_count += merge_stacks(stack_a, stack_b);
 
 
-	print_stack(stack_a);
-	print_stack(stack_b);
+	print_stack(*stack_a);
+	print_stack(*stack_b);
 	if (is_sort(*stack_a) == 1)
 	{
-		print_stack(*stack_a);
+		//print_stack(*stack_a);
 		ft_printf("NB_op : %d\n", op_count);
 	}
 	else

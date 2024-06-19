@@ -14,6 +14,8 @@ void	print_stack(t_stack *stack);
 int		ft_strisnumber(const char *str);
 void	sort(t_stack **stack_a, t_stack **stack_b);
 void	update_indices(t_stack *stack);
+int		get_stack_size(t_stack *stack);
+int		get_min(t_stack *stack);
 
 void	sa(t_stack **stack_a);
 void	sb(t_stack **stack_b);
