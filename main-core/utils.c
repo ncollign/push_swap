@@ -23,13 +23,30 @@ int	get_min(t_stack *stack)
 	int	min;
 
 	min = stack->value;
-	while (stack != NULL && stack->next != NULL)
+	while (stack != NULL)
 	{
         if (stack->value < min)
 			min = stack->value;
         stack = stack->next;
     }
     return (min);
+}
+
+int	get_max(t_stack *stack)
+/*
+	This function returns the minimum value of a stack
+*/
+{
+	int	max;
+
+	max = stack->value;
+	while (stack != NULL)
+	{
+        if (stack->value > max)
+			max = stack->value;
+        stack = stack->next;
+    }
+    return (max);
 }
 
 void update_indices(t_stack *stack)

@@ -12,6 +12,9 @@
 		"tuple": "c",
 		"push_swap.h": "c",
 		"rotate.C": "cpp",
-		"utils": "c"
+		"utils": "c",
+		"random": "c",
+		"limits": "c",
+		"algorithm": "c"
 	}
 }
