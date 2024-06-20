@@ -159,6 +159,7 @@ int simple_sort(t_stack **stack_a, t_stack **stack_b)
 		else if (!is_sort(*stack_a) && !is_sort(*stack_b))
 		{
 			rr(stack_a, stack_b);
+			ft_printf("OK");
             op_count++;
 		}
 		else
