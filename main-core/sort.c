@@ -125,10 +125,6 @@ int simple_sort(t_stack **stack_a, t_stack **stack_b)
 	max_b = get_max(*stack_b);
     while (is_sorted == 0)
     {
-		print_stack(*stack_a);
-		print_stack(*stack_b);
-		// Il faut swap tant que le premier est plus grand que le deuxième
-		// Puis seulement après envoyer le plus grand en dessous de la pile
         if (((*stack_b)->value > (*stack_b)->next->value) && ((*stack_a)->value > (*stack_a)->next->value))
 		{
 			if ((*stack_a)->value != max_a && (*stack_b)->value != max_b)
@@ -139,12 +135,12 @@ int simple_sort(t_stack **stack_a, t_stack **stack_b)
 		}
 		else
 		{
-			if ((*stack_a)->value > (*stack_a)->next->value && !is_sort(*stack_a))
+			if ((*stack_a)->value > (*stack_a)->next->value && (*stack_a)->value != max_a)
 			{
 				sa(stack_a);
 				op_count++;
 			}
-			if ((*stack_b)->value > (*stack_b)->next->value && !is_sort(*stack_b))
+			if ((*stack_b)->value > (*stack_b)->next->value && (*stack_b)->value != max_b)
 			{
 				sb(stack_b);
 				op_count++;
