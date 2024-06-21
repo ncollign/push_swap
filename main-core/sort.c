@@ -1,196 +1,151 @@
 #include "push_swap.h"
+#include <stdio.h>
 
-int	divide_stack(t_stack **stack_a, t_stack **stack_b)
+void insertion_sort_array(int *array, int size) {
+	int	i;
+	int	j;
+	int	key;
+
+	i = 1;
+	while (i < size)
+	{
+		key = array[i];
+		j = 0;
+		while (j >= 0 && array[j] > key)
+		{
+			array[j + 1] = array[j];
+			j = j - 1;
+		}
+		array[j + 1] = key;
+	}
+}
+
+int insertion_sort(t_stack **stack_a, t_stack **stack_b)
 /*
-	This function divides the stack_a in two equal parts, and push the half part in stack_b
+	This function put elements of stack_b in stack_a in the correct order
 	Returns the amount of operations
 */
 {
-	int		index_mid;
-	int		index;
-	t_stack	*last;
-
-	index_mid = get_stack_size(*stack_a) / 2;
-	index = 0;
-	while (index < index_mid)
-	{
-		pb(stack_a, stack_b);
-		index++;
-	}
-	return (index);
-}
-
-int	is_sort(t_stack *stack)
-/*
-	This function checks if the stack is sorted circularly
-	Returns 0 if not
-	Returns 1 if OK
-*/
-{
-	int	min;
-	int	max;
-	int	head_value;
-
-	min = get_min(stack);
-	max = get_max(stack);
-	head_value = stack->value;
-	while (stack != NULL && stack->next != NULL)
-    {
-        if (stack->value > stack->next->value)
-		{
-			if (!(stack->value == max && stack->next->value == min))
-				return (0);
-		}
-        stack = stack->next;
-		if (stack->next == NULL && (stack->value > head_value))
-		{
-			if (!(stack->value == max && head_value == min))
-				return(0);
-		}
-    }
-    return (1);
-}
-
-int	heads_top(t_stack **stack_a, t_stack **stack_b)
-/*
-	This function puts the heads of the stacks on the top of them
-*/
-{
-	int	min_a;
-	int	min_b;
 	int	op_count;
 
-	min_a = get_min(*stack_a);
-	min_b = get_min(*stack_b);
 	op_count = 0;
-	while (((*stack_a)->value != min_a) || ((*stack_b)->value != min_b))
+	/*while (*stack_a && (*stack_a)->next && (*stack_a)->value > (*stack_a)->next->value)
 	{
-		if ((*stack_a)->value == min_a)
-			rb(stack_b);
-		else if ((*stack_b)->value == min_b)
-			ra(stack_a);
-		else
-			rr(stack_a, stack_b);
-		op_count++;
+		sa(stack_a);
+		
+		*stack_a = (*stack_a)->next;
+	}*/
+
+	while (!(is_sort(stack_a) && is_sort(stack_b)))
+	{
+		if ((*stack_a)->value > (*stack_a)->next->value && (*stack_b)->value > (*stack_b)->next->value)
+		{
+			ss(stack_a, stack_b);
+		}
+		else if ((*stack_a)->value > (*stack_a)->next->value)
+		{
+			sa(stack_a);
+		}
+		else if ((*stack_b)->value > (*stack_b)->next->value)
+		{
+			sb(stack_b);
+		}
+		rr(stack_a, stack_b);
 	}
 	return (op_count);
 }
 
-int	merge_stacks(t_stack **stack_a, t_stack **stack_b)
+
+int find_median(t_stack *stack)
 /*
-	This function merges two stacks together in the right order
-	Put the head on the top of stack A
-	stack_a is the destination stack
+	This function put all the values of stack_a in an array
+	Sort the array and find de median value
+	Returns median value
 */
 {
-	int	min;
-	int	op_count;
+	int size;
+	int	i;
+	int *values;
+	int median;
+	t_stack *temp;
 
+	size = get_stack_size(stack);
+	values = (int *)malloc(size * sizeof(int));
+	temp = stack;
+	i = 0;
+	while (i < size)
+	{
+		values[i] = temp->value;
+		temp = temp->next;
+		i++;
+	}
+	insertion_sort_array(values, size);
+	median = values[size / 2];
+	free(values);
+	return (median);
+}
+
+int divide_stack(t_stack **stack_a, t_stack **stack_b, int median)
+/*
+	This function push elements < median in stack B
+	Returns the amount of operations
+*/
+{
+	int size;
+	int op_count;
+	int	i;
+	
+	size = get_stack_size(*stack_a);
 	op_count = 0;
-    while (*stack_b)
-    {
-        if ((*stack_b)->value <= (*stack_a)->value)
-        {
-            pa(stack_a, stack_b);
-            op_count++;
-        }
-		else if ((*stack_a)->value == get_max(*stack_a))
+	i = 0;
+	while (i < size)
+	{
+		if ((*stack_a)->value < median)
 		{
-			ra(stack_a);
-			pa(stack_a, stack_b);
+			pb(stack_a, stack_b);
 			op_count++;
 		}
-		ra(stack_a);
-		op_count++;
-    }
-	min = get_min(*stack_a);
-	while ((*stack_a)->value != min)
-	{
-		ra(stack_a);
-		op_count++;
+		else
+		{
+			ra(stack_a);
+			op_count++;
+		}
+		i++;
 	}
 	return (op_count);
 }
 
-int simple_sort(t_stack **stack_a, t_stack **stack_b)
-{
-	int	op_count;
-	int	max_a;
-	int	max_b;
-	int	is_sorted;
-
-	op_count = 0;
-	is_sorted = 0;
-	max_a = get_max(*stack_a);
-	max_b = get_max(*stack_b);
-    while (is_sorted == 0)
-    {
-        if (((*stack_b)->value > (*stack_b)->next->value) && ((*stack_a)->value > (*stack_a)->next->value))
-		{
-			if ((*stack_a)->value != max_a && (*stack_b)->value != max_b)
-			{
-				ss(stack_a, stack_b);
-				op_count++;
-			}
-		}
-		else
-		{
-			if ((*stack_a)->value > (*stack_a)->next->value && (*stack_a)->value != max_a)
-			{
-				sa(stack_a);
-				op_count++;
-			}
-			if ((*stack_b)->value > (*stack_b)->next->value && (*stack_b)->value != max_b)
-			{
-				sb(stack_b);
-				op_count++;
-			}
-		}
-		if (is_sort(*stack_a) && !is_sort(*stack_b))
-        {
-            rb(stack_b);
-            op_count++;
-        }
-        else if (is_sort(*stack_b) && !is_sort(*stack_a))
-        {
-            ra(stack_a);
-            op_count++;
-        }
-		else if (!is_sort(*stack_a) && !is_sort(*stack_b))
-		{
-			rr(stack_a, stack_b);
-			ft_printf("OK");
-            op_count++;
-		}
-		else
-			is_sorted = 1;
-		
-    }
-	return (op_count);
-}
-
-void	sort(t_stack **stack_a, t_stack **stack_b)
+int is_sort(t_stack *stack)
 /*
-	This function sorts stacks
+	This functions checks if the stack is sorted
+	Returns 1 if OK
+	Returns 0 if NOK
 */
 {
-	int		op_count;
-	
-	op_count = 0;
-	op_count += divide_stack(stack_a, stack_b);
-	// Sort stack A and B simultaneously
-	op_count += simple_sort(stack_a, stack_b);
-	op_count += heads_top(stack_a, stack_b);
-	// Envoyer dans la pile A dans le bon ordre
-	op_count += merge_stacks(stack_a, stack_b);
-	
-	print_stack(*stack_a);
-	if (is_sort(*stack_a) == 1)
+	while (stack)
 	{
-		//print_stack(*stack_a);
-		ft_printf("NB_op : %d\n", op_count);
+		if (!stack->next && stack->value == get_min(stack))
+			return (1);
+		if (stack->value > stack->next->value)
+			return (0);
+		stack = stack->next;
 	}
-	else
-		ft_printf("Pas trié\n");
+	return (1);
 }
 
+// Fonction principale de tri
+void sort(t_stack **stack_a, t_stack **stack_b) {
+	int median;
+	int moves;
+	
+	if (is_sort(*stack_a)) {
+		return ;
+	}
+	moves = 1;
+	while (!is_sort(*stack_a) && moves != 0)
+	{
+		median = find_median(*stack_a);
+		moves = divide_stack(stack_a, stack_b, median);
+	}
+	insertion_sort(stack_a, stack_b);
+}
