@@ -87,8 +87,6 @@ int	main(int argc, char **argv)
 	sort(&stack_a, &stack_b);
 	ft_printf("Stack A:\n");
     print_stack(stack_a);
-    ft_printf("Stack B:\n");
-    print_stack(stack_b);
 	t_stack *tmp;
 	while (stack_a)
 	{

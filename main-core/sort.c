@@ -1,23 +1,62 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-void insertion_sort_array(int *array, int size) {
-	int	i;
-	int	j;
-	int	key;
+void insertion_sort_array(int *array, int size)
+/*
+	This function sorts and array of int
+*/
+{
+	int i;
+	int j;
+	int key;
 
 	i = 1;
-	while (i < size)
-	{
+	while (i < size) {
 		key = array[i];
-		j = 0;
-		while (j >= 0 && array[j] > key)
-		{
+		j = i - 1;
+		while (j >= 0 && array[j] > key) {
 			array[j + 1] = array[j];
 			j = j - 1;
 		}
 		array[j + 1] = key;
+		i++;
 	}
+}
+
+int	merge_stacks(t_stack **stack_a, t_stack **stack_b)
+/*
+	This function merges two stacks together in the right order
+	Put the head on the top of stack A
+	stack_a is the destination stack
+*/
+{
+	int	min;
+	int	op_count;
+
+	op_count = 0;
+    while (*stack_b)
+    {
+        if ((*stack_b)->value <= (*stack_a)->value)
+        {
+            pa(stack_a, stack_b);
+            op_count++;
+        }
+		else if ((*stack_a)->value == get_max(*stack_a))
+		{
+			ra(stack_a);
+			pa(stack_a, stack_b);
+			op_count++;
+		}
+		ra(stack_a);
+		op_count++;
+    }
+	min = get_min(*stack_a);
+	while ((*stack_a)->value != min)
+	{
+		ra(stack_a);
+		op_count++;
+	}
+	return (op_count);
 }
 
 int insertion_sort(t_stack **stack_a, t_stack **stack_b)
@@ -29,32 +68,34 @@ int insertion_sort(t_stack **stack_a, t_stack **stack_b)
 	int	op_count;
 
 	op_count = 0;
-	/*while (*stack_a && (*stack_a)->next && (*stack_a)->value > (*stack_a)->next->value)
+	while (!(is_sort(*stack_a) && is_sort(*stack_b)))
 	{
-		sa(stack_a);
-		
-		*stack_a = (*stack_a)->next;
-	}*/
-
-	while (!(is_sort(stack_a) && is_sort(stack_b)))
-	{
-		if ((*stack_a)->value > (*stack_a)->next->value && (*stack_b)->value > (*stack_b)->next->value)
+		if (stack_a && (*stack_a)->next && stack_b && (*stack_b)->next && (*stack_a)->value > (*stack_a)->next->value && (*stack_b)->value > (*stack_b)->next->value)
 		{
-			ss(stack_a, stack_b);
+			if ((*stack_a)->value != get_max(*stack_a) && (*stack_b)->value != get_max(*stack_b))
+				if (!((*stack_a)->next->value == get_min(*stack_a) && (*stack_a)->value == get_max(*stack_a)) && !((*stack_b)->next->value == get_min(*stack_b) && (*stack_b)->value == get_max(*stack_b)))
+					ss(stack_a, stack_b);
 		}
-		else if ((*stack_a)->value > (*stack_a)->next->value)
+		if (stack_a && (*stack_a)->next && (*stack_a)->value > (*stack_a)->next->value)
 		{
-			sa(stack_a);
+			if ((*stack_a)->value != get_max(*stack_a))
+				if (!((*stack_a)->next->value == get_min(*stack_a) && (*stack_a)->value == get_max(*stack_a)))
+					sa(stack_a);
 		}
-		else if ((*stack_b)->value > (*stack_b)->next->value)
+		if (stack_b && (*stack_b)->next && (*stack_b)->value > (*stack_b)->next->value)
 		{
-			sb(stack_b);
+			if ((*stack_b)->value != get_max(*stack_b))
+			{
+				if (!((*stack_b)->next->value == get_min(*stack_b) && (*stack_b)->value == get_max(*stack_b)))
+					sb(stack_b);
+			}
+				
 		}
 		rr(stack_a, stack_b);
 	}
+	merge_stacks(stack_a, stack_b);
 	return (op_count);
 }
-
 
 int find_median(t_stack *stack)
 /*
