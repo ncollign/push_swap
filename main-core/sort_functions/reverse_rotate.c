@@ -1,4 +1,4 @@
-#include "../main-core/push_swap.h"
+#include "../push_swap.h"
 
 static void	reverse_rotate(t_stack **stack)
 /*
