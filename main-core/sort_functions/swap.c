@@ -5,7 +5,6 @@ static void	swap(t_stack *stack)
 	This function swaps The element given in argument and the element just next
 */
 {
-	int		tmp_index;
 	int		tmp_value;
 
 	if (!stack || !stack->next)

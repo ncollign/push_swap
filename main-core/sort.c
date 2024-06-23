@@ -45,7 +45,7 @@ int	merge_stacks(t_stack **stack_a, t_stack **stack_b)
 		{
 			ra(stack_a);
 			pa(stack_a, stack_b);
-			op_count++;
+			op_count += 2;
 		}
 		ra(stack_a);
 		op_count++;
@@ -74,26 +74,53 @@ int insertion_sort(t_stack **stack_a, t_stack **stack_b)
 		{
 			if ((*stack_a)->value != get_max(*stack_a) && (*stack_b)->value != get_max(*stack_b))
 				if (!((*stack_a)->next->value == get_min(*stack_a) && (*stack_a)->value == get_max(*stack_a)) && !((*stack_b)->next->value == get_min(*stack_b) && (*stack_b)->value == get_max(*stack_b)))
+				{
 					ss(stack_a, stack_b);
+					op_count++;
+				}
+					
 		}
 		if (stack_a && (*stack_a)->next && (*stack_a)->value > (*stack_a)->next->value)
 		{
 			if ((*stack_a)->value != get_max(*stack_a))
 				if (!((*stack_a)->next->value == get_min(*stack_a) && (*stack_a)->value == get_max(*stack_a)))
+				{
 					sa(stack_a);
+					op_count++;
+				}
 		}
 		if (stack_b && (*stack_b)->next && (*stack_b)->value > (*stack_b)->next->value)
 		{
 			if ((*stack_b)->value != get_max(*stack_b))
 			{
 				if (!((*stack_b)->next->value == get_min(*stack_b) && (*stack_b)->value == get_max(*stack_b)))
+				{
 					sb(stack_b);
+					op_count++;
+				}
 			}
-				
 		}
-		rr(stack_a, stack_b);
+		print_stack(*stack_a);
+		print_stack(*stack_b);
+		if (!is_sort(*stack_a) && !is_sort(*stack_b))
+		{
+			rr(stack_a, stack_b);
+			op_count++;
+		}
+		else if (!is_sort(*stack_a))
+		{
+			ra(stack_a);
+			op_count++;
+		}
+		else if (!is_sort(*stack_b))
+		{
+			rb(stack_b);
+			op_count++;
+		}
+		
+		
 	}
-	merge_stacks(stack_a, stack_b);
+	op_count += merge_stacks(stack_a, stack_b);
 	return (op_count);
 }
 
@@ -175,18 +202,19 @@ int is_sort(t_stack *stack)
 }
 
 // Fonction principale de tri
-void sort(t_stack **stack_a, t_stack **stack_b) {
+int sort(t_stack **stack_a, t_stack **stack_b) {
 	int median;
-	int moves;
-	
+	int op_count;
+
 	if (is_sort(*stack_a)) {
-		return ;
+		return (0);
 	}
-	moves = 1;
-	while (!is_sort(*stack_a) && moves != 0)
+	op_count = 1;
+	while (!is_sort(*stack_a) && op_count != 0)
 	{
 		median = find_median(*stack_a);
-		moves = divide_stack(stack_a, stack_b, median);
+		op_count = divide_stack(stack_a, stack_b, median);
 	}
-	insertion_sort(stack_a, stack_b);
+	op_count += insertion_sort(stack_a, stack_b);
+	return (op_count);
 }

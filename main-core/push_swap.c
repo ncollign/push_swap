@@ -29,7 +29,7 @@ void	init_args(char **args, t_stack **stack_a)
 		{
 			if (!ft_isdigit((int)args[i][j]))
 			{
-				ft_printf("Error\nPlease enter only numbers\n");
+				ft_error(stack_a, stack_a);
 				exit (EXIT_FAILURE);
 			}
 			j++;
@@ -62,7 +62,7 @@ int	main(int argc, char **argv)
 	stack_b = NULL;
 	if (argc <= 1)
 	{
-		ft_printf("Error\nNo arguments\n");
+		ft_error(&stack_a, &stack_b);
 		exit(EXIT_FAILURE);
 	}
 	else if (argc == 2)
@@ -72,7 +72,7 @@ int	main(int argc, char **argv)
 		args = (char **)malloc(sizeof(char *) * argc);
 		if (!args)
 		{
-			ft_printf("Erreur d'allocation mémoire\n");
+			ft_error(&stack_a, &stack_b);
 			exit(EXIT_FAILURE);
 		}
 		i = 1;
@@ -85,20 +85,7 @@ int	main(int argc, char **argv)
 	}
 	init_args(args, &stack_a);
 	sort(&stack_a, &stack_b);
-	ft_printf("Stack A:\n");
-    print_stack(stack_a);
-	t_stack *tmp;
-	while (stack_a)
-	{
-		tmp = stack_a;
-		stack_a = stack_a->next;
-		free(tmp);
-	}
-	while (stack_b)
-	{
-		tmp = stack_b;
-		stack_b = stack_b->next;
-		free(tmp);
-	}
+	free_stack(&stack_a);
+	free_stack(&stack_a);
 	return (EXIT_SUCCESS);
 }
