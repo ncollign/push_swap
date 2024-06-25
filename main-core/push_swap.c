@@ -29,7 +29,7 @@ void	init_args(char **args, t_stack **stack_a)
 		{
 			if (!ft_isdigit((int)args[i][j]))
 			{
-				ft_error(stack_a, stack_a);
+				ft_error(stack_a, stack_a);// test
 				exit (EXIT_FAILURE);
 			}
 			j++;
