@@ -15,6 +15,10 @@
 		"utils": "c",
 		"random": "c",
 		"limits": "c",
-		"algorithm": "c"
+		"algorithm": "c",
+		"cstdlib": "c",
+		"system_error": "c",
+		"type_traits": "c",
+		"utility": "c"
 	}
 }

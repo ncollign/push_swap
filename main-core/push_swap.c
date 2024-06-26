@@ -27,10 +27,10 @@ void	init_args(char **args, t_stack **stack_a)
 			j++;
 		while (args[i][j])
 		{
-			if (!ft_isdigit((int)args[i][j]))
+			if (!ft_isdigit((int)args[i][j]) || args[i] == "")
 			{
-				ft_error(stack_a, stack_a);// test
-				exit (EXIT_FAILURE);
+				ft_error(stack_a, stack_a);
+				//exit (EXIT_FAILURE);
 			}
 			j++;
 		}
@@ -63,7 +63,7 @@ int	main(int argc, char **argv)
 	if (argc <= 1)
 	{
 		ft_error(&stack_a, &stack_b);
-		exit(EXIT_FAILURE);
+		//exit(EXIT_FAILURE);
 	}
 	else if (argc == 2)
 		args = ft_split(argv[1], ' ');
@@ -73,7 +73,7 @@ int	main(int argc, char **argv)
 		if (!args)
 		{
 			ft_error(&stack_a, &stack_b);
-			exit(EXIT_FAILURE);
+			//exit(EXIT_FAILURE);
 		}
 		i = 1;
 		while (i < argc)
@@ -86,6 +86,6 @@ int	main(int argc, char **argv)
 	init_args(args, &stack_a);
 	sort(&stack_a, &stack_b);
 	free_stack(&stack_a);
-	free_stack(&stack_a);
+	free_stack(&stack_b);
 	return (EXIT_SUCCESS);
 }

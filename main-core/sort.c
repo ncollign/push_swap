@@ -100,8 +100,8 @@ int insertion_sort(t_stack **stack_a, t_stack **stack_b)
 				}
 			}
 		}
-		print_stack(*stack_a);
-		print_stack(*stack_b);
+		/*print_stack(*stack_a);
+		print_stack(*stack_b);*/
 		if (!is_sort(*stack_a) && !is_sort(*stack_b))
 		{
 			rr(stack_a, stack_b);
