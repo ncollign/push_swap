@@ -11,10 +11,31 @@ t_stack *new_node(int value, int index)
 	return node;
 }
 
+int has_duplicate(t_stack *stack)
+{
+    t_stack *current;
+	t_stack	*runner;
+
+    current = stack;
+    while (current && current->next)
+	{
+        runner = current->next;
+        while (runner)
+		{
+            if (current->value == runner->value)
+                return (EXIT_FAILURE);
+            runner = runner->next;
+        }
+        current = current->next;
+    }
+    return (EXIT_SUCCESS);
+}
+
 void	init_args(char **args, t_stack **stack_a)
 {
 	int	i;
 	int	j;
+	int	value;
 	t_stack *new;
 	t_stack *last;
 
@@ -23,30 +44,26 @@ void	init_args(char **args, t_stack **stack_a)
 	while (args[i])
 	{
 		j = 0;
-		if (args[i][j] == '-' || args[i][j] == '+')
-			j++;
 		while (args[i][j])
 		{
-			if (!ft_isdigit((int)args[i][j]) || args[i] == "")
-			{
+			if (!ft_isdigit((int)args[i][j]))
 				ft_error(stack_a, stack_a);
-				//exit (EXIT_FAILURE);
-			}
 			j++;
 		}
-		new = new_node(ft_atoi(args[i]), i);
+		value = ft_atoi(args[i]);
+		if (value < 0)
+			ft_error(stack_a, stack_a);
+		new = new_node(value, i);
 		if (!*stack_a)
-		{
 			*stack_a = new;
-		}
 		else
-		{
-			last = *stack_a;
-			while (last->next)
-				last = last->next;
 			last->next = new;
-		}
+		last = new;
 		i++;
+	}
+    if (has_duplicate(*stack_a))
+	{
+        ft_error(stack_a, stack_a);
 	}
 	free(args);
 }
@@ -54,35 +71,41 @@ void	init_args(char **args, t_stack **stack_a)
 int	main(int argc, char **argv)
 {
 	t_stack *stack_a;
-	t_stack *stack_b;
-	char **args;
-	int i;
+    t_stack *stack_b;
+    char **args;
+    int i;
 
-	stack_a = NULL;
-	stack_b = NULL;
-	if (argc <= 1)
-	{
-		ft_error(&stack_a, &stack_b);
-		//exit(EXIT_FAILURE);
-	}
+    stack_a = NULL;
+    stack_b = NULL;
+    if (argc <= 1)
+        ft_error(&stack_a, &stack_b);
 	else if (argc == 2)
-		args = ft_split(argv[1], ' ');
+	{
+        args = ft_split(argv[1], ' ');
+        if (!args[0])
+		{
+            free(args);
+            ft_error(&stack_a, &stack_b);
+        }
+    }
 	else
 	{
-		args = (char **)malloc(sizeof(char *) * argc);
-		if (!args)
+        args = (char **)malloc(sizeof(char *) * argc);
+        if (!args)
+            ft_error(&stack_a, &stack_b);
+        i = 1;
+        while (i < argc)
 		{
-			ft_error(&stack_a, &stack_b);
-			//exit(EXIT_FAILURE);
-		}
-		i = 1;
-		while (i < argc)
-		{
-			args[i - 1] = argv[i];
-			i++;
-		}
-		args[argc - 1] = NULL;
-	}
+            if (argv[i][0] == '\0')
+			{
+                free(args);
+                ft_error(&stack_a, &stack_b);
+            }
+            args[i - 1] = argv[i];
+            i++;
+        }
+        args[argc - 1] = NULL;
+    }
 	init_args(args, &stack_a);
 	sort(&stack_a, &stack_b);
 	free_stack(&stack_a);
