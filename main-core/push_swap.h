@@ -4,8 +4,8 @@
 
 typedef struct s_stack
 {
-	int				value;
-	int				index;
+	int		value;
+	int		index;
 	struct s_stack	*next;
 }				t_stack;
 
@@ -20,6 +20,11 @@ int		get_max(t_stack *stack);
 int		is_sort(t_stack *stack);
 void	ft_error(t_stack **stack_a, t_stack **stack_b);
 void	free_stack(t_stack **stack);
+int 	is_sort(t_stack *stack);
+int		is_reverse_sort(t_stack *stack);
+
+void	big_sort(t_stack **stack_a, t_stack **stack_b);
+void	tiny_sort(t_stack **stack);
 
 void	sa(t_stack **stack_a);
 void	sb(t_stack **stack_b);

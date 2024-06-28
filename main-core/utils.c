@@ -31,6 +31,42 @@ void ft_error(t_stack **stack_a, t_stack **stack_b)
     exit(EXIT_FAILURE);
 }
 
+int is_sort(t_stack *stack)
+/*
+	This functions checks if the stack is sorted
+	Returns 1 if OK
+	Returns 0 if NOK
+*/
+{
+	while (stack)
+	{
+		if (!stack->next && stack->value == get_min(stack))
+			return (1);
+		if (stack->value > stack->next->value)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
+}
+
+int is_reverse_sort(t_stack *stack)
+/*
+	This functions checks if the stack is reverse sorted
+	Returns 1 if OK
+	Returns 0 if NOK
+*/
+{
+	while (stack)
+	{
+		if (!stack->next && stack->value == get_max(stack))
+			return (1);
+		if (stack->value < stack->next->value)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
+}
+
 t_stack	*last_element(t_stack *stack)
 /*
 	This function returns the last element of a stack

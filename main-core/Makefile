@@ -1,7 +1,7 @@
 NAME = push_swap
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -I../libft
-SRCS = push_swap.c sort.c utils.c sort_functions/push.c sort_functions/reverse_rotate.c sort_functions/rotate.c sort_functions/swap.c
+SRCS = push_swap.c sort.c big_sort.c utils.c sort_functions/push.c sort_functions/reverse_rotate.c sort_functions/rotate.c sort_functions/swap.c
 LIBFT = ../libft/libft.a
 OBJS = $(SRCS:.c=.o)
 

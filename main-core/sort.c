@@ -1,42 +1,6 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-int is_sort(t_stack *stack)
-/*
-	This functions checks if the stack is sorted
-	Returns 1 if OK
-	Returns 0 if NOK
-*/
-{
-	while (stack)
-	{
-		if (!stack->next && stack->value == get_min(stack))
-			return (1);
-		if (stack->value > stack->next->value)
-			return (0);
-		stack = stack->next;
-	}
-	return (1);
-}
-
-int is_reverse_sort(t_stack *stack)
-/*
-	This functions checks if the stack is reverse sorted
-	Returns 1 if OK
-	Returns 0 if NOK
-*/
-{
-	while (stack)
-	{
-		if (!stack->next && stack->value == get_max(stack))
-			return (1);
-		if (stack->value < stack->next->value)
-			return (0);
-		stack = stack->next;
-	}
-	return (1);
-}
-
 void	tiny_sort(t_stack **stack)
 /*
 	This function sorts a stack with basic sorting
@@ -175,23 +139,6 @@ int	divide_stack(t_stack **stack_a, t_stack **stack_b, int median)
 	return (moves);
 }
 
-void	merge_stacks(t_stack **stack_a, t_stack **stack_b)
-/*
-	This function merges two stacks together in the right order
-	Put the head on the top of stack A
-	stack_a is the destination stack
-*/
-{
-    while (*stack_b)
-    {
-        pa(stack_a, stack_b);
-    }
-	while (!is_sort(*stack_a))
-	{
-		ra(stack_a);
-	}
-}
-
 void	insertion_sort(t_stack **stack_a, t_stack **stack_b)
 /*
 	This function put elements of stack_b in stack_a in the correct order
@@ -234,19 +181,6 @@ void	insertion_sort(t_stack **stack_a, t_stack **stack_b)
 		if (!is_reverse_sort(*stack_b))
 			rrb(stack_b);
 	}
-}
-
-void	big_sort(t_stack **stack_a, t_stack **stack_b)
-/*test*/
-{
-	int	median;
-
-	median = find_median(*stack_a);
-	divide_stack(stack_a, stack_b, median);
-	print_stack(*stack_a);
-	print_stack(*stack_b);
-	//insertion_sort(stack_a, stack_b);
-	//merge_stacks(stack_a, stack_b);
 }
 
 

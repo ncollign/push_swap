@@ -19,6 +19,7 @@
 		"cstdlib": "c",
 		"system_error": "c",
 		"type_traits": "c",
-		"utility": "c"
+		"utility": "c",
+		"stdio.h": "c"
 	}
 }
