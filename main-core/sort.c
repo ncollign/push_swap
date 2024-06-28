@@ -237,7 +237,7 @@ void	insertion_sort(t_stack **stack_a, t_stack **stack_b)
 }
 
 void	big_sort(t_stack **stack_a, t_stack **stack_b)
-/**/
+/*test*/
 {
 	int	median;
 
