@@ -103,6 +103,8 @@ int find_median(t_stack *stack)
 	return (median);
 }
 
+
+
 int	divide_stack(t_stack **stack_a, t_stack **stack_b, int median)
 /*
 	This function push elements < median in stack B
