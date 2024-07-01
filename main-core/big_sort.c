@@ -1,7 +1,5 @@
 #include "push_swap.h"
 
-
-
 int	get_upper(int value, t_stack *stack)
 /*
 	This function get the value of the number just upper than the value entered in param
@@ -70,10 +68,9 @@ int	get_cheapest(t_stack *stack_a, t_stack *stack_b)
 	while (stack_b)
 	{
 		upper = get_upper(stack_b->value, stack_a);
-		cost = get_cost(stack_a, upper); // Définit où placer dans la stack_a
+		cost = get_cost(stack_a, upper);
 		if (cost == INT_MIN)
-			//stack_b-> value est le max
-			cost = 2; // Car on push puis on rotate
+			cost = 2;
 		else
 			cost += stack_b->index + 1;
 		if (cost < lower_cost)
@@ -116,55 +113,100 @@ int	get_index_by_value(t_stack *stack, int value)
 	return (-1);
 }
 
+void	divide_stacks(t_stack **stack_a, t_stack **stack_b)
+{
+	int	median;
+
+	median = find_median(*stack_a);
+	while (get_stack_size(*stack_a) > 3)
+	{
+		if ((*stack_a)->value < median)
+			pb(stack_a, stack_b);
+		else
+		{
+			pb(stack_a, stack_b);
+			rb(stack_b);
+		}
+	}
+}
+
 void	big_sort(t_stack **stack_a, t_stack **stack_b)
 {
-	int	cheapest;
+	int	index_to_move;
 	int	value_to_move;
 	int	middle_a;
 	int	middle_b;
 	int	value_to_place;
 	int	index_to_place;
 
-	while (get_stack_size(*stack_a) > 3)
-	{
-		pb(stack_a, stack_b);
-		// A tester
-		/*if ((*stack_b)->next && (*stack_b)->value < (*stack_b)->next->value)
-			sb(stack_b);*/
-	}
+	divide_stacks(stack_a, stack_b);
 	tiny_sort(stack_a);
-	while (*stack_b)
-	{
-		cheapest = get_cheapest(*stack_a, *stack_b); // index de l'élément le moins cher dans B
-		value_to_move = get_value_by_index(*stack_b, cheapest);
-		middle_b = get_stack_size(*stack_b) / 2;
-		middle_a = get_stack_size(*stack_a) / 2;
-		value_to_place = get_upper(value_to_move, *stack_a);
-		index_to_place = get_index_by_value(*stack_a, value_to_place);
-		while ((*stack_b)->value != value_to_move)
-		{
-			if (cheapest >= middle_b + 1)
-				rrb(stack_b);
-			else
-				rb(stack_b);
-		}
-		while ((*stack_a)->value != value_to_place)
-		{
-			if (index_to_place >= middle_a + 1)
-				rra(stack_a);
-			else
-				ra(stack_a);
-		}
 
-
-
-		
-		pa(stack_a, stack_b);
-	}
-	while (!is_sort(*stack_a))
-	{
-		ra(stack_a); // A optimiser
-	}
 	/*print_stack(*stack_a);
 	print_stack(*stack_b);*/
+	while (*stack_b)
+	{
+		index_to_move = get_cheapest(*stack_a, *stack_b);
+		value_to_move = get_value_by_index(*stack_b, index_to_move);
+		middle_b = get_stack_size(*stack_b) / 2;
+		middle_a = get_stack_size(*stack_a) / 2;
+		if (value_to_move > get_max(*stack_a))
+			value_to_place = get_min(*stack_a);
+		else
+			value_to_place = get_upper(value_to_move, *stack_a);
+		index_to_place = get_index_by_value(*stack_a, value_to_place);
+		while (!((*stack_b)->value == value_to_move && (*stack_a)->value == value_to_place)) // Place on top
+		{
+			if ((*stack_b)->value != value_to_move && (*stack_a)->value != value_to_place)
+			{
+				if (index_to_place >= middle_a + 1 && index_to_move >= middle_b + 1)
+					rrr(stack_a, stack_b);
+				else if (index_to_place < middle_a + 1 && index_to_move < middle_b + 1)
+					rr(stack_a, stack_b);
+				else
+				{
+					if ((*stack_a)->value != value_to_place)
+					{
+						if (index_to_place >= middle_a + 1)
+							rra(stack_a);
+						else if (index_to_place < middle_a + 1)
+							ra(stack_a);
+					}
+					else if ((*stack_b)->value != value_to_move)
+					{
+						if (index_to_move >= middle_b + 1)
+							rrb(stack_b);
+						else if (index_to_move < middle_b + 1)
+							rb(stack_b);
+					}
+				}
+			}
+			else if ((*stack_a)->value != value_to_place)
+			{
+				if (index_to_place >= middle_a + 1)
+					rra(stack_a);
+				else if (index_to_place < middle_a + 1)
+					ra(stack_a);	
+			}
+			else if ((*stack_b)->value != value_to_move)
+			{
+				if (index_to_move >= middle_b + 1)
+					rrb(stack_b);
+				else if (index_to_move < middle_b + 1)
+					rb(stack_b);
+			}
+		}
+		pa(stack_a, stack_b);
+	}
+	middle_a = get_stack_size(*stack_a) / 2;
+	value_to_place = get_min(*stack_a);
+	index_to_place = get_index_by_value(*stack_a, value_to_place);
+	while (!is_sort(*stack_a))
+	{
+		if (index_to_place >= middle_a + 1)
+			rra(stack_a);
+		else
+			ra(stack_a);
+	}
+	
 }

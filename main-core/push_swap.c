@@ -46,13 +46,11 @@ void	init_args(char **args, t_stack **stack_a)
 		j = 0;
 		while (args[i][j])
 		{
-			if (!ft_isdigit((int)args[i][j]))
+			if (!ft_isdigit((int)args[i][j]) && args[i][j] != '-')
 				ft_error(stack_a, stack_a);
 			j++;
 		}
 		value = ft_atoi(args[i]);
-		if (value < 0)
-			ft_error(stack_a, stack_a);
 		new = new_node(value, i);
 		if (!*stack_a)
 			*stack_a = new;

@@ -22,9 +22,11 @@ void	ft_error(t_stack **stack_a, t_stack **stack_b);
 void	free_stack(t_stack **stack);
 int 	is_sort(t_stack *stack);
 int		is_reverse_sort(t_stack *stack);
+int		find_median(t_stack *stack);
 
 void	big_sort(t_stack **stack_a, t_stack **stack_b);
 void	tiny_sort(t_stack **stack);
+void	medium_sort(t_stack **stack_a, t_stack **stack_b);
 
 void	sa(t_stack **stack_a);
 void	sb(t_stack **stack_b);
