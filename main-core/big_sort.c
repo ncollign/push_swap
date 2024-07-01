@@ -208,5 +208,4 @@ void	big_sort(t_stack **stack_a, t_stack **stack_b)
 		else
 			ra(stack_a);
 	}
-	
 }

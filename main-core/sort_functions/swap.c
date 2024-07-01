@@ -19,8 +19,11 @@ void	sa(t_stack **stack_a)
 	This function swaps the elements on the top of stack a
 */
 {
-	swap(*stack_a);
-	ft_printf("sa\n");
+	if (get_stack_size(*stack_a) > 1)
+	{
+		swap(*stack_a);
+		ft_printf("sa\n");
+	}
 }
 
 void	sb(t_stack **stack_b)
@@ -28,8 +31,11 @@ void	sb(t_stack **stack_b)
 	This function swaps the elements on the top of stack b
 */
 {
-	swap(*stack_b);
-	ft_printf("sb\n");
+	if (get_stack_size(*stack_b) > 1)
+	{
+		swap(*stack_b);
+		ft_printf("sb\n");
+	}
 }
 
 void	ss(t_stack **stack_a, t_stack **stack_b)
@@ -37,7 +43,10 @@ void	ss(t_stack **stack_a, t_stack **stack_b)
 	This function swaps the elements on the top of stack a and stack b
 */
 {
-	swap(*stack_a);
-	swap(*stack_b);
-	ft_printf("ss\n");
+	if (get_stack_size(*stack_a) > 1 && get_stack_size(*stack_b) > 1)
+	{
+		swap(*stack_a);
+		swap(*stack_b);
+		ft_printf("ss\n");
+	}
 }
