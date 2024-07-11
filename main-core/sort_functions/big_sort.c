@@ -114,17 +114,39 @@ void	divide_stacks(t_stack **stack_a, t_stack **stack_b)
 	}
 }
 
+static void	swap_stacks(t_stack **stack_a, t_stack **stack_b)
+// Il faudrait utiliser un tableau du style to_move('index', 'value')
+{
+	if ((*stack_a)->value != value_to_place)
+	{
+		if (index_to_place >= middle_a)
+			rra(stack_a);
+		else
+			ra(stack_a);
+	}
+	if ((*stack_b)->value != value_to_move)
+	{
+		if (index_to_move >= middle_b)
+			rrb(stack_b);
+		else
+			rb(stack_b);
+	}
+}
+
 void	big_sort(t_stack **stack_a, t_stack **stack_b)
 /*
 	This function sorts a stack bigger than 5 numbers
 */
 {
-	int	index_to_move;
-	int	value_to_move;
-	int	middle_a;
-	int	middle_b;
-	int	value_to_place;
-	int	index_to_place;
+	int	to_move[2]; // Index 0 et value 1
+	int to_place[2];
+
+	/*int	index_to_move;
+	int	value_to_move;*/
+	/*int	middle_a;
+	int	middle_b;*/
+	/*int	value_to_place;
+	int	index_to_place;*/
 	int	stack_a_size;
 	int	stack_b_size;
 
@@ -135,25 +157,31 @@ void	big_sort(t_stack **stack_a, t_stack **stack_b)
 	{
 		stack_a_size = get_stack_size(*stack_a);
 		stack_b_size = get_stack_size(*stack_b);
-		index_to_move = get_cheapest(*stack_a, *stack_b);
-		value_to_move = get_value_by_index(*stack_b, index_to_move);
-		middle_b = stack_b_size / 2 + 1;
-		middle_a = stack_a_size / 2 + 1;
-		if (value_to_move > get_max(*stack_a))
-			value_to_place = get_min(*stack_a);
+
+		to_move[0] = get_cheapest(*stack_a, *stack_b);
+		to_move[1] = get_value_by_index(*stack_b, to_move[0]);
+
+		/*index_to_move = get_cheapest(*stack_a, *stack_b);
+		value_to_move = get_value_by_index(*stack_b, index_to_move);*/
+		//middle_b = stack_b_size / 2 + 1;
+		//middle_a = stack_a_size / 2 + 1;
+		if (to_move[1] > get_max(*stack_a))
+			to_place[1] = get_min(*stack_a);
 		else
-			value_to_place = get_upper(value_to_move, *stack_a);
-		index_to_place = get_index_by_value(*stack_a, value_to_place);
-		while ((*stack_b)->value != value_to_move || (*stack_a)->value != value_to_place)
+			to_place[1] = get_upper(to_move[1], *stack_a);
+		to_place[0] = get_index_by_value(*stack_a, value_to_place);
+		while ((*stack_b)->value != to_move[1] || (*stack_a)->value != to_place[1])
 		{
-			if ((*stack_b)->value != value_to_move && (*stack_a)->value != value_to_place)
+			if ((*stack_b)->value != to_move[1] && (*stack_a)->value != to_place[1])
 			{
-				if (index_to_place >= middle_a && index_to_move >= middle_b)
+				if (to_place[0] >= stack_a_size / 2 + 1 && to_move[0] >= stack_b_size / 2 + 1)
 					rrr(stack_a, stack_b);
-				else if (index_to_place < middle_a && index_to_move < middle_b)
+				else if (to_place[0] < stack_a_size / 2 + 1 && to_move[0] < stack_b_size / 2 + 1)
 					rr(stack_a, stack_b);
 				else
 				{
+					swap_stacks();
+					/*
 					if ((*stack_a)->value != value_to_place)
 					{
 						if (index_to_place >= middle_a)
@@ -168,16 +196,18 @@ void	big_sort(t_stack **stack_a, t_stack **stack_b)
 						else
 							rb(stack_b);
 					}
+					*/
 				}
 			}
 			else
 			{
-				if ((*stack_a)->value != value_to_place)
+				swap_stacks();
+				/*if ((*stack_a)->value != value_to_place)
 				{
 					if (index_to_place >= middle_a)
 						rra(stack_a);
 					else
-						ra(stack_a);	
+						ra(stack_a);
 				}
 				if ((*stack_b)->value != value_to_move)
 				{
@@ -185,11 +215,13 @@ void	big_sort(t_stack **stack_a, t_stack **stack_b)
 						rrb(stack_b);
 					else
 						rb(stack_b);
-				}
+				}*/
 			}
 		}
 		pa(stack_a, stack_b);
 	}
+
+	//Fonction head_up()
 	middle_a = get_stack_size(*stack_a) / 2 + 1;
 	value_to_place = get_min(*stack_a);
 	index_to_place = get_index_by_value(*stack_a, value_to_place);
