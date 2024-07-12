@@ -17,9 +17,10 @@ LIBFT = ../libft/libft.a
 SRCS = 	push_swap.c \
         utils/utils_exit.c \
         utils/utils_nodes.c \
-        utils/utils_exit.c \
         utils/utils_sorting1.c \
         utils/utils_sorting2.c \
+		utils/utils_arguments.c \
+		utils/utils_big_sort.c \
         sort_functions/push.c \
         sort_functions/reverse_rotate.c \
         sort_functions/rotate.c \

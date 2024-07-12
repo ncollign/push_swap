@@ -21,6 +21,13 @@ typedef struct s_stack
 	int				index;
 }				t_stack;
 
+typedef struct s_sort_params
+{
+	int	to_move[2];
+	int	to_place[2];
+	int	sizes[2];
+}				t_sort_params;
+
 t_stack	*last_element(t_stack *stack);
 t_stack	*new_node(int value, int index);
 
@@ -30,12 +37,16 @@ void	update_indices(t_stack *stack);
 int		get_stack_size(t_stack *stack);
 int		get_min(t_stack *stack);
 int		get_max(t_stack *stack);
+int		get_upper(int value, t_stack *stack);
+int		get_cost(t_stack *stack, int upper);
+int		get_cheapest(t_stack *stack_a, t_stack *stack_b);
 void	ft_error(t_stack **stack_a, t_stack **stack_b);
 void	free_args(char **args);
 void	free_stack(t_stack **stack);
 int		is_sort(t_stack *stack);
 int		is_reverse_sort(t_stack *stack);
 int		find_median(t_stack *stack);
+void	divide_stacks(t_stack **stack_a, t_stack **stack_b);
 int		get_value_by_index(t_stack *stack, int index);
 int		get_index_by_value(t_stack *stack, int value);
 int		validate_argument(char *arg);

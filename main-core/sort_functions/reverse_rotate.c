@@ -18,7 +18,7 @@ static void	reverse_rotate(t_stack **stack)
 */
 {
 	t_stack	*tmp;
-	t_stack *second_last;
+	t_stack	*second_last;
 
 	if (!*stack || !(*stack)->next)
 		return ;
@@ -26,7 +26,7 @@ static void	reverse_rotate(t_stack **stack)
 	second_last = *stack;
 	*stack = last_element(*stack);
 	while (second_last->next->next != NULL)
-        second_last = second_last->next;
+		second_last = second_last->next;
 	second_last->next = NULL;
 	(*stack)->next = tmp;
 	update_indices(*stack);

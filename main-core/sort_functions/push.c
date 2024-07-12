@@ -18,12 +18,10 @@ static void	push(t_stack **stack_src, t_stack **stack_dest)
 
 	if (!stack_src || !*stack_src)
 		return ;
-
 	tmp = *stack_src;
 	*stack_src = (*stack_src)->next;
 	tmp->next = *stack_dest;
 	*stack_dest = tmp;
-
 	update_indices(*stack_src);
 	update_indices(*stack_dest);
 }

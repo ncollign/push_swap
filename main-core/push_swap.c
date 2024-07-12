@@ -48,6 +48,7 @@ void	init_args(char **args, t_stack **stack_a)
 	int		value;
 
 	*stack_a = NULL;
+	last = NULL;
 	i = 0;
 	while (args[i])
 	{
@@ -66,7 +67,6 @@ void	init_args(char **args, t_stack **stack_a)
 		last = new;
 		i++;
 	}
-	free_args(args);
 }
 
 void	sort(t_stack **stack_a, t_stack **stack_b)
@@ -95,7 +95,7 @@ t_stack **stack_a, t_stack **stack_b)
 	char	**args;
 	int		i;
 
-	args = (char **)malloc(sizeof(char *) * (argc + 1));
+	args = malloc(sizeof(char *) * (argc + 1));
 	if (!args)
 		ft_error(stack_a, stack_b);
 	i = 1;
@@ -109,7 +109,7 @@ t_stack **stack_a, t_stack **stack_b)
 		args[i - 1] = ft_strdup(argv[i]);
 		i++;
 	}
-	args[argc] = NULL;
+	args[i - 1] = NULL;
 	return (args);
 }
 
@@ -137,6 +137,7 @@ int	main(int argc, char **argv)
 	else
 		args = multiple_arguments(argv, argc, &stack_a, &stack_b);
 	init_args(args, &stack_a);
+	free_args(args);
 	if (has_duplicate(stack_a))
 		ft_error(&stack_a, &stack_a);
 	sort(&stack_a, &stack_b);
