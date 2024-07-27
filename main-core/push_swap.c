@@ -125,7 +125,7 @@ int	main(int argc, char **argv)
 	stack_a = NULL;
 	stack_b = NULL;
 	if (argc <= 1)
-		ft_error(&stack_a, &stack_b);
+		exit(EXIT_FAILURE);
 	else if (argc == 2)
 	{
 		if (argv[1][0] == '\0' || argv[1][0] == ' ')
