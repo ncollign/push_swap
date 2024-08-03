@@ -101,11 +101,6 @@ t_stack **stack_a, t_stack **stack_b)
 	i = 1;
 	while (i < argc)
 	{
-		if (argv[i][0] == '\0')
-		{
-			free_args(args);
-			ft_error(stack_a, stack_b);
-		}
 		args[i - 1] = ft_strdup(argv[i]);
 		i++;
 	}
@@ -127,13 +122,7 @@ int	main(int argc, char **argv)
 	if (argc <= 1)
 		exit(EXIT_FAILURE);
 	else if (argc == 2)
-	{
-		if (argv[1][0] == '\0' || argv[1][0] == ' ')
-			ft_error(&stack_a, &stack_b);
 		args = ft_split(argv[1], ' ');
-		if (!args)
-			ft_error(&stack_a, &stack_b);
-	}
 	else
 		args = multiple_arguments(argv, argc, &stack_a, &stack_b);
 	init_args(args, &stack_a);
